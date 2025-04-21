@@ -8,20 +8,7 @@ void main() async {
   // Initialize Database
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.init();
-  /* await DatabaseHelper.insert({
-    "title":"Title 1",
-    "desc":"Description 1",
-    "date":DateTime.now().toString(),
-    "status":0,
-    "isFav":0,
-  });
-  await DatabaseHelper.insert({
-    "title":"Title 2",
-    "desc":"Description 2",
-    "date":DateTime.now().toString(),
-    "status":0,
-    "isFav":0,
-  });*/
+
   runApp(const MyApp());
 }
 
@@ -33,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppCubit()..getAllNotes(), // Anonymous object
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
       ),
