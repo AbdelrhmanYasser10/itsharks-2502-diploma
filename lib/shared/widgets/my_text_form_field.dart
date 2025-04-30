@@ -8,6 +8,7 @@ class MyTextFormField extends StatefulWidget {
   final String?Function(String?) validatorFunction;
   final TextEditingController controller;
   final IconData icon;
+  final bool isPassword;
 
   const MyTextFormField({
     super.key,
@@ -15,6 +16,7 @@ class MyTextFormField extends StatefulWidget {
     required this.controller,
     required this.validatorFunction,
     required this.icon,
+    this.isPassword = false,
   });
 
 
@@ -26,10 +28,12 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
   final FocusNode _focusNode = FocusNode();
   bool isFocused = false;
 
+  late bool isSecure;
+
   @override
   void initState() {
     super.initState();
-
+    isSecure = widget.isPassword;
     _focusNode.addListener(
       () {
         setState((){
@@ -45,9 +49,20 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
       controller: widget.controller,
       validator: widget.validatorFunction,
       focusNode: _focusNode,
-
+      obscureText: isSecure,
       cursorColor: AppColors.kPrimaryColor,
       decoration: InputDecoration(
+        suffixIcon: widget.isPassword ?
+        IconButton(onPressed: (){
+          setState(() {
+            isSecure = !isSecure;
+          });
+        }, icon:
+        Icon(
+          isSecure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+          color:  isFocused ? AppColors.kPrimaryColor : Colors.grey,
+        ),
+        ):null,
         labelText: widget.labelText,
         labelStyle: AppTextStyles.subTitleTextStyle.copyWith(
           color:  isFocused ? AppColors.kPrimaryColor : Colors.grey,
