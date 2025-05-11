@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "871894860792",
+    "project_id": "chatapp-itsharks",
+    "storage_bucket": "chatapp-itsharks.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871894860792:android:46e2df21ecd0b596a7cc0d",
+        "android_client_info": {
+          "package_name": "com.example.chat_app_itsharks_25"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY99CEulvo_vJp6CEEdix5TSnk7wVm_ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

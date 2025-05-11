@@ -1,0 +1,2 @@
+D:/MSP/MSPFlutter/TrainProject/chat_app_itsharks_25/android/app/.cxx/Debug/6h6e524o/x86/CMakeFiles/edit_cache.dir
+D:/MSP/MSPFlutter/TrainProject/chat_app_itsharks_25/android/app/.cxx/Debug/6h6e524o/x86/CMakeFiles/rebuild_cache.dir
