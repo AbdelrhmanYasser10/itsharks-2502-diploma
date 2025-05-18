@@ -1,11 +1,18 @@
 import 'package:authentication_buttons/authentication_buttons.dart';
+import 'package:chat_app_itsharks_25/logic_layer/app_cubit/app_cubit.dart';
+import 'package:chat_app_itsharks_25/logic_layer/auth_cubit/auth_cubit.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/authentication/register/register_screen.dart';
+import 'package:chat_app_itsharks_25/presentation_layer/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_auth_buttons/res/buttons/facebook_auth_button.dart';
 import 'package:social_auth_buttons/res/buttons/github_auth_button.dart';
 import 'package:social_auth_buttons/res/buttons/google_auth_button.dart';
 import 'package:social_auth_buttons/res/shared/auth_button_style.dart';
+import '../../../generated/l10n.dart';
+import '../../../utlis/app_functions.dart';
+import '../../layout/main_layout.dart';
 import '../../shared/widgets/auth_info.dart';
 import '../../shared/widgets/my_button.dart';
 import '../../shared/widgets/my_text_form_field.dart';
@@ -35,14 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "LOGIN",
+                  (S.of(context).login_txt).toUpperCase(),
                   style: Theme.of(context)
                       .textTheme
                       .displayLarge!
                       .copyWith(fontSize: 50.0),
                 ),
                 Text(
-                  "login to chat with your friends",
+                 S.of(context).login_subtitle,
                   style: Theme.of(context).textTheme.bodySmall!,
                 ),
                 SizedBox(
@@ -60,23 +67,45 @@ class _LoginScreenState extends State<LoginScreen> {
                 MyTextFormField(
                   validator: (p0) {},
                   controller: _passwordController,
-                  hintText: "Password",
+                  hintText: S.of(context).password_hint,
                   prefixIcon: FontAwesomeIcons.lock,
                   isPassword: true,
                 ),
                 SizedBox(
                   height: height * 0.055,
                 ),
-                MyButton(
-                  onPressed: () {},
-                  text: "Login",
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if(state is LoginSuccessfully){
+                      AppCubit.get(context).getUser();
+                      navigateToReplacement(
+                        context,
+                        const MainLayout()
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    var cubit = AuthCubit.get(context);
+                    if(state is LoginLoading){
+                      return const LoadingWidget();
+                    }
+                    return MyButton(
+                      onPressed: () {
+                        cubit.login(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                        );
+                      },
+                      text: S.of(context).login_txt,
+                    );
+                  },
                 ),
                 SizedBox(
                   height: height * 0.015,
                 ),
                 Center(
                   child: Text(
-                    "OR",
+                    S.of(context).or_txt,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -123,11 +152,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: height * 0.015,
                 ),
                 AuthenticationInfo(
-                  hintText: "Don't have an account?",
-                  buttonFunction:(){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const RegisterScreen()));
-                  } ,
-                  buttonText: "Signup",
+                  hintText:S.of(context).dont_have_acc,
+                  buttonFunction: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterScreen()));
+                  },
+                  buttonText: S.of(context).signup_txt,
                 ),
               ],
             ),

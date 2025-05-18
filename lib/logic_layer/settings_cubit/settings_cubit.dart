@@ -11,6 +11,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   static SettingsCubit get(context)=>BlocProvider.of(context);
 
   late bool isDark;
+  late String languageCode;
   void loadThemeFromCache(){
     bool? fromCache = SharedPreferencesHelper.getData(key: "isDark");
     if(fromCache == null) {
@@ -26,5 +27,22 @@ class SettingsCubit extends Cubit<SettingsState> {
     isDark = !isDark;
     await SharedPreferencesHelper.saveData(key: "isDark", value: isDark);
     emit(ChangeTheme());
+  }
+
+  void loadLanguageCode(){
+    String? langCode = SharedPreferencesHelper.getData(key: "languageCode");
+    if(langCode == null){
+      languageCode = 'en';
+    }
+    else{
+      languageCode = langCode;
+    }
+    emit(LoadLanguageFromCache());
+  }
+
+  void changeLanguage({required String languageCode})async {
+    this.languageCode = languageCode;
+    await SharedPreferencesHelper.saveData(key: "languageCode", value: languageCode);
+    emit(ChangeLanguage());
   }
 }

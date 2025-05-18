@@ -1,1 +1,30 @@
-{}
+{
+  "title": "مرحبا",
+  "login_txt": "تسجيل الدخول",
+  "login_subtitle": "تسجيل الدخول للدردشة مع أصدقائك",
+  "password_hint": "كلمة المرور",
+  "or_txt": "أو",
+  "dont_have_acc": "ليس لديك حساب؟",
+  "signup_txt": "اشتراك",
+  "username_txt": "اسم المستخدم",
+  "confirm_password_txt": "تأكيد كلمة المرور",
+  "register_txt": "تسجيل",
+  "register_sub_txt": "سجل للدردشة مع أصدقائك",
+  "gallery_txt": "المعرض",
+  "camera_txt": "كاميرا",
+  "already_have_acc_txt": "لديك حساب بالفعل؟",
+  "enter_message_txt": "أدخل رسالتك ....",
+  "sending_err_txt": "خطأ في الإرسال",
+  "check_internet_conn_txt": "تحقق من اتصال الإنترنت الخاص بك",
+
+  "chat_txt": "الدردشات",
+  "profile_txt": "الملف الشخصي",
+  "settings_txt": "الإعدادات",
+  "dark_theme_txt": "ثيم داكن",
+  "language_txt": "اللغة",
+  "options_txt": "الخيارات",
+  "edit_profile_txt": "تعديل الملف الشخصي",
+  "chat_app_txt": "تطبيق الدردشة",
+  "logout_txt": "تسجيل الخروج"
+
+}

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:chat_app_itsharks_25/logic_layer/auth_cubit/auth_cubit.dart';
+import 'package:chat_app_itsharks_25/presentation_layer/layout/main_layout.dart';
+import 'package:chat_app_itsharks_25/presentation_layer/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +12,9 @@ import 'package:social_auth_buttons/res/buttons/github_auth_button.dart';
 import 'package:social_auth_buttons/res/buttons/google_auth_button.dart';
 import 'package:social_auth_buttons/res/shared/auth_button_style.dart';
 
+import '../../../generated/l10n.dart';
+import '../../../logic_layer/app_cubit/app_cubit.dart';
+import '../../../utlis/app_functions.dart';
 import '../../shared/styles/colors/app_colors.dart';
 import '../../shared/widgets/auth_info.dart';
 import '../../shared/widgets/my_button.dart';
@@ -50,14 +55,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "REGISTER",
+                    (S.of(context).register_txt).toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .displayLarge!
                         .copyWith(fontSize: 50.0),
                   ),
                   Text(
-                    "register to chat with your friends",
+                    S.of(context).register_sub_txt,
                     style: Theme.of(context).textTheme.bodySmall!,
                   ),
                   SizedBox(
@@ -132,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               });
                                             },
                                             child: Text(
-                                              "Gallery",
+                                              S.of(context).gallery_txt,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium!
@@ -152,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               });
                                             },
                                             child: Text(
-                                              "Camera",
+                                              S.of(context).camera_txt,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium!
@@ -204,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   MyTextFormField(
                     validator: (p0) {},
                     controller: _usernameController,
-                    hintText: "Username",
+                    hintText:S.of(context).username_txt,
                     prefixIcon: FontAwesomeIcons.person,
                   ),
                   SizedBox(
@@ -213,7 +218,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   MyTextFormField(
                     validator: (p0) {},
                     controller: _passwordController,
-                    hintText: "Password",
+                    hintText: S.of(context).password_hint,
                     prefixIcon: FontAwesomeIcons.lock,
                     isPassword: true,
                   ),
@@ -223,7 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   MyTextFormField(
                     validator: (p0) {},
                     controller: _confirmationPasswordController,
-                    hintText: "Confirm Password",
+                    hintText:S.of(context).confirm_password_txt,
                     prefixIcon: FontAwesomeIcons.lock,
                     isPassword: true,
                   ),
@@ -231,12 +236,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: height * 0.055,
                   ),
                   BlocConsumer<AuthCubit, AuthState>(
-                    listener: (context, state) {},
+                    listener: (context, state) {
+                      if (state is RegisterSuccessfully) {
+                        AppCubit.get(context).getUser();
+                        navigateToReplacement(
+                            context,
+                            const MainLayout()
+                        );
+                      }
+                    },
                     builder: (context, state) {
                       if (state is RegisterLoading) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const LoadingWidget();
                       }
                       return MyButton(
                         onPressed: () {
@@ -245,7 +256,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               username: _usernameController.text,
                               password: _passwordController.text);
                         },
-                        text: "Register",
+                        text: S.of(context).register_txt,
                       );
                     },
                   ),
@@ -254,7 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Center(
                     child: Text(
-                      "OR",
+                      S.of(context).or_txt,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -301,14 +312,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: height * 0.015,
                   ),
                   AuthenticationInfo(
-                    hintText: "Already have an account?",
+                    hintText: S.of(context).already_have_acc_txt,
                     buttonFunction: () {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (_) => const LoginScreen()));
                     },
-                    buttonText: "Login",
+                    buttonText:S.of(context).login_txt,
                   ),
                 ],
               ),

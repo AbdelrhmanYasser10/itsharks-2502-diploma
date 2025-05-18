@@ -2,12 +2,15 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_itsharks_25/logic_layer/settings_cubit/settings_cubit.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/authentication/login/login_screen.dart';
+import 'package:chat_app_itsharks_25/presentation_layer/edit_profile/edit_profile.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
+import '../../generated/l10n.dart';
 import '../../logic_layer/app_cubit/app_cubit.dart';
 import '../shared/styles/colors/app_colors.dart';
 import '../shared/widgets/loading_widget.dart';
@@ -82,11 +85,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Settings",
+                            S.of(context).settings_txt,
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                           Card(
-                            color: isDark? Colors.black : Colors.white,
+                            color: isDark ? Colors.black : Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6),
                             ),
@@ -94,14 +97,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: ListTile(
                               leading: Icon(
                                 FontAwesomeIcons.moon,
-                                color: isDark? Colors.white : Colors.black,
+                                color: isDark ? Colors.white : Colors.black,
                               ),
                               title: Text(
-                                "Dark theme",
+                                S.of(context).dark_theme_txt,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              trailing:
-                              Switch(
+                              trailing: Switch(
                                 value: isDark,
                                 onChanged: (value) {
                                   SettingsCubit.get(context).changeTheme();
@@ -115,24 +117,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 2.0,
                           ),
                           Card(
-                            color: isDark? Colors.black : Colors.white,
+                            color: isDark ? Colors.black : Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6),
                             ),
                             elevation: 2,
                             child: ListTile(
-                              leading:  Icon(
+                              leading: Icon(
                                 FontAwesomeIcons.language,
-                                color: isDark? Colors.white : Colors.black,
+                                color: isDark ? Colors.white : Colors.black,
                               ),
-                              title:  Text(
-                                "Language",
+                              title: Text(
+                                S.of(context).language_txt,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               trailing: DropdownButtonHideUnderline(
                                 child: DropdownButton2<String>(
                                   hint: Text(
-                                    selectedValue ?? "English",
+                                    Intl.getCurrentLocale() == "en"
+                                        ? "English"
+                                        : "العربية",
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
@@ -152,6 +156,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   value: selectedValue,
                                   onChanged: (value) {
                                     setState(() {
+                                      if (value == "English") {
+                                        S.load(const Locale('en'));
+                                        SettingsCubit.get(context)
+                                            .changeLanguage(languageCode: 'en');
+                                      } else {
+                                        S.load(const Locale('ar'));
+                                        SettingsCubit.get(context)
+                                            .changeLanguage(languageCode: 'ar');
+                                      }
                                       selectedValue = value;
                                     });
                                   },
@@ -160,7 +173,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     width: 200,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(14),
-                                      color: isDark? Colors.black : Colors.white,
+                                      color:
+                                          isDark ? Colors.black : Colors.white,
                                     ),
                                     offset: const Offset(-20, 0),
                                     scrollbarTheme: ScrollbarThemeData(
@@ -188,12 +202,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Options",
+                            S.of(context).options_txt,
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                           buildOptionCard(
-                            title: "Edit Profile",
-                            onPressed: () {},
+                            title: S.of(context).edit_profile_txt,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>  EditProfile(
+                                      userData: AppCubit.get(context).user!,
+                                    )),
+                              );
+                            },
                             isDark: isDark,
                             icon: FontAwesomeIcons.penToSquare,
                           ),
@@ -201,11 +223,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 2.0,
                           ),
                           buildOptionCard(
-                            title: "Log Out",
-                            onPressed: () async{
+                            title: S.of(context).logout_txt,
+                            onPressed: () async {
                               await FirebaseAuth.instance.signOut();
                               AppCubit.get(context).user = null;
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const LoginScreen()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const LoginScreen()));
                             },
                             isDark: isDark,
                             icon: FontAwesomeIcons.arrowRightFromBracket,
@@ -232,7 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GestureDetector(
       onTap: onPressed,
       child: Card(
-        color: isDark? Colors.black : Colors.white,
+        color: isDark ? Colors.black : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         ),
@@ -240,8 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListTile(
           leading: Icon(
             icon,
-            color: isDark? Colors.white : Colors.black,
-
+            color: isDark ? Colors.white : Colors.black,
           ),
           title: Text(
             title,

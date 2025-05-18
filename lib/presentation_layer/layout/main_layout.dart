@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
 
+import '../../generated/l10n.dart';
 import '../chats_screen/chats_screen.dart';
 import '../profile_screen/profile_screen.dart';
-import '../shared/styles/colors/app_colors.dart';
-import '../shared/styles/text_styles/text_styles.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({Key? key}) : super(key: key);
+  const MainLayout({super.key});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -28,8 +24,8 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Chat App",
+        title:  Text(
+          S.of(context).chat_app_txt,
         ),
         actions: [
           IconButton(
@@ -47,18 +43,18 @@ class _MainLayoutState extends State<MainLayout> {
             activeIdx = value;
           });
         },
-          items: [
+          items:  [
             BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
               FontAwesomeIcons.message,
               ),
-              label: "Chats"
+              label: S.of(context).chat_txt
             ),
             BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
               FontAwesomeIcons.person,
               ),
-              label: "Profile"
+              label: S.of(context).profile_txt
             ),
           ],
       ),

@@ -18,3 +18,11 @@ final class LoginLoading extends AuthState {}
 final class LoginSuccessfully extends AuthState {}
 final class LoginError extends AuthState {}
 
+final class UpdateUserLoading extends AuthState {}
+final class UpdateUserSuccessfully extends AuthState {}
+final class UpdateUserError extends AuthState {}
+
+
+final class DeleteUserLoading extends AuthState {}
+final class DeleteUserSuccess extends AuthState {}
+

@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
-            create: (context) => SettingsCubit()..loadThemeFromCache()),
+            create: (context) => SettingsCubit()..loadThemeFromCache()..loadLanguageCode()),
         BlocProvider(
           create: (context) => AppCubit(
             userRepo: UserRepository(
@@ -47,14 +49,21 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           var cubit = SettingsCubit.get(context);
           return MaterialApp(
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
             debugShowCheckedModeBanner: false,
-            title: 'Chat app',
+            locale: Locale(cubit.languageCode),
             darkTheme: AppTheme.darkTheme,
             theme: AppTheme.lightTheme,
             themeMode: cubit.isDark ? ThemeMode.dark : ThemeMode.light,
             home: FirebaseAuth.instance.currentUser == null
-                ? LoginScreen()
-                : MainLayout(),
+                ? const LoginScreen()
+                : const MainLayout(),
           );
         },
       ),
