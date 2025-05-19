@@ -3,12 +3,14 @@ class UserModel{
   late String username;
   late String email;
   late String imageUrl;
+  late String? fcmToken;
 
   UserModel.fromJson(Map<String,dynamic> json){
     id = json["id"];
     username= json["username"];
     email = json["email"];
     imageUrl = json["imageUrl"];
+    fcmToken = json["fcmToken"];
   }
 
   Map<String,dynamic> toJson ()=>{
@@ -16,6 +18,7 @@ class UserModel{
     "username":username,
     "email":email,
     "imageUrl":imageUrl,
+    "fcmToken":fcmToken,
   };
 
 }

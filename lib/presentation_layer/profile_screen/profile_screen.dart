@@ -1,8 +1,10 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_itsharks_25/data_layer/authentication/model/user_model.dart';
 import 'package:chat_app_itsharks_25/logic_layer/settings_cubit/settings_cubit.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/authentication/login/login_screen.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/edit_profile/edit_profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -211,9 +213,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) =>  EditProfile(
-                                      userData: AppCubit.get(context).user!,
-                                    )),
+                                    builder: (_) => EditProfile(
+                                          userData: AppCubit.get(context).user!,
+                                        )),
                               );
                             },
                             isDark: isDark,
@@ -225,6 +227,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           buildOptionCard(
                             title: S.of(context).logout_txt,
                             onPressed: () async {
+                              UserModel user = AppCubit.get(context).user!;
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(user.id)
+                                  .update({
+                                "fcmToken": null,
+                              });
                               await FirebaseAuth.instance.signOut();
                               AppCubit.get(context).user = null;
                               Navigator.pushReplacement(

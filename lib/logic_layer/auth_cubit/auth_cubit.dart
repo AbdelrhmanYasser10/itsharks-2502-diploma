@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_itsharks_25/services/notification_serivces/messaging_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary/cloudinary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,6 +102,7 @@ class AuthCubit extends Cubit<AuthState> {
         "username": username,
         "imageUrl": response.url!,
         "email": email,
+        "fcmToken":MessagingConfiguration.getFCMToken(),
       });
       croppedFile = null;
       pickedImage = null;
@@ -119,6 +121,11 @@ class AuthCubit extends Cubit<AuthState> {
       UserCredential user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (user.user != null) {
+        await _database.collection("users").
+        doc(user.user!.uid)
+        .update({
+          "fcmToken":MessagingConfiguration.getFCMToken(),
+        });
         emit(LoginSuccessfully());
       } else {
         emit(LoginError());

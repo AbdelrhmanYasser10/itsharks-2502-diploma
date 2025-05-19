@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_itsharks_25/data_layer/authentication/model/user_model.dart';
 import 'package:chat_app_itsharks_25/data_layer/messages/message_model.dart';
+import 'package:chat_app_itsharks_25/services/notification_serivces/messaging_config.dart';
+import 'package:chat_app_itsharks_25/services/notification_serivces/send_notification_serivce.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary/cloudinary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +45,7 @@ class AppCubit extends Cubit<AppState> {
     emit(GetUserDataLoading());
     try {
       user = await userRepo.getUserModelFromWebService();
+      user!.fcmToken = MessagingConfiguration.getFCMToken();
       emit(GetUserDataSuccessfully());
     }catch(error){
       emit(GetUserDataError());
@@ -71,12 +74,12 @@ class AppCubit extends Cubit<AppState> {
   void sendMessage({
   required String content,
     String?media,
-    required String recieverId,
+    required UserModel reciever,
 })async{
     MessageModel messageModel = MessageModel(
       date: Timestamp.now(),
       content: content,
-      recieverId: recieverId,
+      recieverId: reciever.id,
       media: media,
       senderId: user!.id,
     );
@@ -86,18 +89,25 @@ class AppCubit extends Cubit<AppState> {
         .collection("users")
         .doc(user!.id)
         .collection("chats")
-        .doc(recieverId)
+        .doc(reciever.id)
         .collection("messages")
         .add(messageModel.toJson());
 
     await _database
         .collection("users")
-        .doc(recieverId)
+        .doc(reciever.id)
         .collection("chats")
         .doc(user!.id)
         .collection("messages")
         .add(messageModel.toJson());
-
+    if(reciever.fcmToken !=null){
+      await sendNotification(
+          token: reciever.fcmToken!,
+          title: reciever.username,
+          body: content,
+          data: {},
+      );
+    }
     emit(SendingMessageSuccessfully());
   }
 
@@ -161,7 +171,7 @@ class AppCubit extends Cubit<AppState> {
 
   void uploadImage({
  required String content,
-    required String recieverId,
+    required UserModel reciever,
 })async{
     emit(UploadImageLoading());
 
@@ -177,7 +187,11 @@ class AppCubit extends Cubit<AppState> {
 
     clearImageFromMem();
     if(response.isSuccessful){
-      sendMessage(content: content, recieverId: recieverId,media: response.url);
+      sendMessage(
+          content: content,
+          reciever: reciever,
+          media: response.url,
+      );
     }
     else{
       emit(UploadImageError());

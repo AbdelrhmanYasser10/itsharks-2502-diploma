@@ -7,6 +7,9 @@ import 'package:chat_app_itsharks_25/presentation_layer/authentication/login/log
 import 'package:chat_app_itsharks_25/presentation_layer/layout/main_layout.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/shared/styles/theme/app_theme.dart';
 import 'package:chat_app_itsharks_25/services/cache_helper/cache_helper.dart';
+import 'package:chat_app_itsharks_25/services/dio_helper/dio_helper.dart';
+import 'package:chat_app_itsharks_25/services/notification_serivces/messaging_config.dart';
+import 'package:chat_app_itsharks_25/services/notification_serivces/send_notification_serivce.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +24,16 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SharedPreferencesHelper.init();
+  DioHelper.init();
+  await MessagingConfiguration.configuration();
 
+  await sendNotification(
+    token:  MessagingConfiguration.getFCMToken()!,
+    title: "Hello from the app",
+    body: "This notification is sent from the application",
+    data: {},
+
+  );
   runApp(const MyApp());
 }
 

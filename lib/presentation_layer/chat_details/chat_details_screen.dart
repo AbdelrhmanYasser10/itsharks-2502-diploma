@@ -180,13 +180,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                               if (AppCubit.get(context).croppedImage == null) {
                                 AppCubit.get(context).sendMessage(
                                   content: _messageController.text,
-                                  recieverId: widget.reciever.id,
+                                  reciever: widget.reciever
                                 );
                                 _messageController.clear();
                               } else {
                                 AppCubit.get(context).uploadImage(
                                   content: _messageController.text,
-                                  recieverId: widget.reciever.id,
+                                  reciever: widget.reciever,
                                 );
                               }
                             }
@@ -264,7 +264,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                           if (_messageController.text.isNotEmpty) {
                             AppCubit.get(context).uploadImage(
                               content: _messageController.text,
-                              recieverId: widget.reciever.id,
+                              reciever: widget.reciever,
                             );
                           }
                         } else {
