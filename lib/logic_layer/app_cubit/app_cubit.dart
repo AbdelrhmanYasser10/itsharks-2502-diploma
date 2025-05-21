@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -105,7 +106,10 @@ class AppCubit extends Cubit<AppState> {
           token: reciever.fcmToken!,
           title: reciever.username,
           body: content,
-          data: {},
+          data: {
+            "route":"/chat_details",
+            "user":jsonEncode(user!.toJson()),
+          },
       );
     }
     emit(SendingMessageSuccessfully());

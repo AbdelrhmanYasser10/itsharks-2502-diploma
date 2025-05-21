@@ -252,6 +252,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return MyButton(
                         onPressed: () {
                           AuthCubit.get(context).register(
+                            registerProvider: "email",
                               email: _emailController.text,
                               username: _usernameController.text,
                               password: _passwordController.text);
@@ -279,7 +280,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GoogleAuthButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            AuthCubit.get(context).register(
+                                registerProvider: "google",
+                            );
+                          },
                           elevation: 1.0,
                           borderRadius: 6.0,
                           darkMode: false,

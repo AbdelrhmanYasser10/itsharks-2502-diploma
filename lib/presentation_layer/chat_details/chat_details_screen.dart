@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_itsharks_25/data_layer/authentication/model/user_model.dart';
@@ -9,10 +8,7 @@ import 'package:chat_app_itsharks_25/presentation_layer/shared/styles/text_style
 import 'package:chat_app_itsharks_25/presentation_layer/shared/widgets/loading_widget.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/shared/widgets/my_text_form_field.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -319,7 +315,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 ? Colors.white
                 : Colors.black,
             textStyle: AppTextStyles.font16WhiteBold.copyWith(
-                color: (isDark && isMeSender)
+                color: (isDark && !isMeSender)
                     ? Colors.black
                     : null),
             tail: false,
@@ -339,7 +335,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             ? Colors.white
             : Colors.black,
         textStyle: AppTextStyles.font16WhiteBold.copyWith(
-            color: (isDark && isMeSender)
+            color: (isDark && !isMeSender)
                 ? Colors.black
                 : null),
         tail: false,

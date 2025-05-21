@@ -3,9 +3,11 @@ import 'package:chat_app_itsharks_25/logic_layer/app_cubit/app_cubit.dart';
 import 'package:chat_app_itsharks_25/logic_layer/auth_cubit/auth_cubit.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/authentication/register/register_screen.dart';
 import 'package:chat_app_itsharks_25/presentation_layer/shared/widgets/loading_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_auth_buttons/res/buttons/facebook_auth_button.dart';
 import 'package:social_auth_buttons/res/buttons/github_auth_button.dart';
 import 'package:social_auth_buttons/res/buttons/google_auth_button.dart';
@@ -119,7 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GoogleAuthButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+
+                        },
                         elevation: 1.0,
                         borderRadius: 6.0,
                         darkMode: false,

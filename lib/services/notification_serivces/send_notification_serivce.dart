@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:chat_app_itsharks_25/presentation_layer/chat_details/chat_details_screen.dart';
 import 'package:chat_app_itsharks_25/services/dio_helper/dio_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:dio/dio.dart';
 
+import '../../data_layer/authentication/model/user_model.dart';
+
 Future<String> getAccessToken() async {
   final jsonString = await rootBundle.loadString(
-    'assets/notification_key/chatapp-itsharks-2ad23bbf66c8.json',
+    'assets/notification_key/chatapp-itsharks-09eb799b2318.json',
   );
   final accountCredentials =
       auth.ServiceAccountCredentials.fromJson(jsonString);
@@ -55,5 +59,13 @@ Future<void> sendNotification({
   } else {
     print(response.data);
     log("Notification Send Error");
+  }
+}
+
+void handleNotification(BuildContext context , Map<String,dynamic> data){
+  String route = data["route"];
+  UserModel reciever = UserModel.fromJson(jsonDecode(data["user"]));
+  if(route == "/chat_details"){
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatDetailsScreen(reciever: reciever)));
   }
 }

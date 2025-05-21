@@ -7,6 +7,7 @@ import 'package:cloudinary/cloudinary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -78,38 +79,65 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void register({
-    required String email,
-    required String username,
-    required String password,
+    required String registerProvider,
+     String? email,
+     String? username,
+     String? password,
   }) async {
     emit(RegisterLoading());
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      if(registerProvider == "email"){
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email!,
+          password: password!,
+        );
 
-    final response = await cloudinary.upload(
-      file: croppedFile!.path,
-      fileBytes: File(croppedFile!.path).readAsBytesSync(),
-      resourceType: CloudinaryResourceType.image,
-      folder: "User images - chat app",
-      fileName: croppedFile!.path.split('/').last,
-    );
+        final response = await cloudinary.upload(
+          file: croppedFile!.path,
+          fileBytes: File(croppedFile!.path).readAsBytesSync(),
+          resourceType: CloudinaryResourceType.image,
+          folder: "User images - chat app",
+          fileName: croppedFile!.path.split('/').last,
+        );
 
-    if (response.isSuccessful) {
-      await _database.collection("users").doc(userCredential.user!.uid).set({
-        "id": userCredential.user!.uid,
-        "username": username,
-        "imageUrl": response.url!,
-        "email": email,
-        "fcmToken":MessagingConfiguration.getFCMToken(),
-      });
-      croppedFile = null;
-      pickedImage = null;
+        if (response.isSuccessful) {
+          await _database.collection("users").doc(userCredential.user!.uid).set({
+            "id": userCredential.user!.uid,
+            "username": username,
+            "imageUrl": response.url!,
+            "email": email,
+            "fcmToken":MessagingConfiguration.getFCMToken(),
+          });
+          croppedFile = null;
+          pickedImage = null;
+      }  else {
+          emit(RegisterError());
+        }
+
       emit(RegisterSuccessfully());
-    } else {
-      emit(RegisterError());
     }
+
+      else{
+        // logic
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+        final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        await _database.collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid).set({
+          "id": FirebaseAuth.instance.currentUser!.uid,
+          "username": googleUser!.displayName ?? "User #${FirebaseAuth.instance.currentUser!.uid}",
+          "imageUrl": googleUser.photoUrl,
+          "email": googleUser.email,
+          "fcmToken":MessagingConfiguration.getFCMToken(),
+        });
+        emit(RegisterSuccessfully());
+
+      }
+
   }
 
   void login({

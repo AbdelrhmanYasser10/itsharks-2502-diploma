@@ -8,6 +8,9 @@ abstract class DioHelper {
     _dio = Dio(
       BaseOptions(
         baseUrl: "https://fcm.googleapis.com/v1/projects/chatapp-itsharks/",
+        headers: {
+          "Content-Type":"application/json"
+        },
         connectTimeout: const Duration(seconds: 20),
         receiveDataWhenStatusError: true,
         validateStatus: (status) {

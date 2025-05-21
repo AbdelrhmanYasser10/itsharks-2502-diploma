@@ -9,7 +9,7 @@ class UserModel{
     id = json["id"];
     username= json["username"];
     email = json["email"];
-    imageUrl = json["imageUrl"];
+    imageUrl = json["imageUrl"] ?? "https://img.freepik.com/free-psd/contact-icon-illustration-isolated_23-2151903337.jpg?semt=ais_hybrid&w=740";
     fcmToken = json["fcmToken"];
   }
 

@@ -9,14 +9,16 @@ import 'package:chat_app_itsharks_25/presentation_layer/shared/styles/theme/app_
 import 'package:chat_app_itsharks_25/services/cache_helper/cache_helper.dart';
 import 'package:chat_app_itsharks_25/services/dio_helper/dio_helper.dart';
 import 'package:chat_app_itsharks_25/services/notification_serivces/messaging_config.dart';
-import 'package:chat_app_itsharks_25/services/notification_serivces/send_notification_serivce.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
+
+final navigationKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,14 +28,14 @@ void main() async {
   await SharedPreferencesHelper.init();
   DioHelper.init();
   await MessagingConfiguration.configuration();
-
-  await sendNotification(
+  FirebaseMessaging.onBackgroundMessage(MessagingConfiguration.messageHandler);
+  /*await sendNotification(
     token:  MessagingConfiguration.getFCMToken()!,
     title: "Hello from the app",
     body: "This notification is sent from the application",
     data: {},
 
-  );
+  );*/
   runApp(const MyApp());
 }
 
@@ -61,6 +63,7 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           var cubit = SettingsCubit.get(context);
           return MaterialApp(
+            navigatorKey: navigationKey,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
