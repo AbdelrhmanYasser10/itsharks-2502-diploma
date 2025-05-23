@@ -12,7 +12,20 @@
           "package_name": "com.example.chat_app_itsharks_25"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "871894860792-9boq7e95q04v76kcvel1egv7tj5oroir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_app_itsharks_25",
+            "certificate_hash": "1ace9c502530a675c9f7e06fdf1e7f55a0248b8b"
+          }
+        },
+        {
+          "client_id": "871894860792-mk3uv4850jt25mn82d9gh0f0rfmn03ob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBY99CEulvo_vJp6CEEdix5TSnk7wVm_ZU"
@@ -20,7 +33,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871894860792-mk3uv4850jt25mn82d9gh0f0rfmn03ob.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "871894860792-4e0o57jmj6siao1l9jc6asikbendrim7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatAppItsharks25"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871894860792:android:5a2587e5c4e2d67da7cc0d",
+        "android_client_info": {
+          "package_name": "com.it_sharks.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871894860792-mk3uv4850jt25mn82d9gh0f0rfmn03ob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY99CEulvo_vJp6CEEdix5TSnk7wVm_ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871894860792-mk3uv4850jt25mn82d9gh0f0rfmn03ob.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "871894860792-4e0o57jmj6siao1l9jc6asikbendrim7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatAppItsharks25"
+              }
+            }
+          ]
         }
       }
     }

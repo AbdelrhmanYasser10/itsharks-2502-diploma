@@ -25,6 +25,7 @@
   "options_txt": "الخيارات",
   "edit_profile_txt": "تعديل الملف الشخصي",
   "chat_app_txt": "تطبيق الدردشة",
-  "logout_txt": "تسجيل الخروج"
+  "logout_txt": "تسجيل الخروج",
+  "app_name": "تطبيق الدردشة"
 
 }

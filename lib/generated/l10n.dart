@@ -234,6 +234,11 @@ class S {
   String get logout_txt {
     return Intl.message('Log Out', name: 'logout_txt', desc: '', args: []);
   }
+
+  /// `Chat app`
+  String get app_name {
+    return Intl.message('Chat app', name: 'app_name', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

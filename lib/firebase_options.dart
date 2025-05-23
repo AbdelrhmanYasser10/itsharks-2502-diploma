@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBY99CEulvo_vJp6CEEdix5TSnk7wVm_ZU',
-    appId: '1:871894860792:android:46e2df21ecd0b596a7cc0d',
+    appId: '1:871894860792:android:5a2587e5c4e2d67da7cc0d',
     messagingSenderId: '871894860792',
     projectId: 'chatapp-itsharks',
     storageBucket: 'chatapp-itsharks.firebasestorage.app',
@@ -59,10 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDE91q9uTNHrVOJr7uSF-dAAlv4hQqXtRA',
-    appId: '1:871894860792:ios:0bfbf5d0bd657519a7cc0d',
+    appId: '1:871894860792:ios:b96f07908a1b990aa7cc0d',
     messagingSenderId: '871894860792',
     projectId: 'chatapp-itsharks',
     storageBucket: 'chatapp-itsharks.firebasestorage.app',
-    iosBundleId: 'com.example.chatAppItsharks25',
+    androidClientId: '871894860792-9boq7e95q04v76kcvel1egv7tj5oroir.apps.googleusercontent.com',
+    iosClientId: '871894860792-kr8icbk9f58autvpqcinbsnrpr2v08cp.apps.googleusercontent.com',
+    iosBundleId: 'com.itSharks.chatApp',
   );
+
 }

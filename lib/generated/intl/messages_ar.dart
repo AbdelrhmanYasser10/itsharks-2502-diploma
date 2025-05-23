@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "already_have_acc_txt": MessageLookupByLibrary.simpleMessage(
       "لديك حساب بالفعل؟",
     ),
+    "app_name": MessageLookupByLibrary.simpleMessage("تطبيق الدردشة"),
     "camera_txt": MessageLookupByLibrary.simpleMessage("كاميرا"),
     "chat_app_txt": MessageLookupByLibrary.simpleMessage("تطبيق الدردشة"),
     "chat_txt": MessageLookupByLibrary.simpleMessage("الدردشات"),

@@ -24,5 +24,6 @@
   "options_txt": "Options",
   "edit_profile_txt": "Edit Profile",
   "chat_app_txt": "Chat App",
-  "logout_txt": "Log Out"
+  "logout_txt": "Log Out",
+  "app_name": "Chat app"
 }
